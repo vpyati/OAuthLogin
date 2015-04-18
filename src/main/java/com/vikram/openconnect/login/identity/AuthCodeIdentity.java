@@ -4,8 +4,8 @@ import org.apache.http.HttpException;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.vikram.openconnect.login.DefaultIdentityFetcher;
 import com.vikram.openconnect.login.IIdentityFetcher;
-import com.vikram.openconnect.login.IOpenconnectDiscoveryFactory;
 import com.vikram.openconnect.login.exception.UnableToFetchIdentityException;
 import com.vikram.openconnect.login.input.IOAuthCredentials;
 
@@ -14,11 +14,7 @@ public class AuthCodeIdentity implements Identity {
 	@Autowired
 	private IOAuthCredentials oauthCredentials ;
 	
-	@Autowired
-	private IOpenconnectDiscoveryFactory openConnectFactory;
-	
-	@Autowired
-	private IIdentityFetcher tokenResponseFetcher;
+	private IIdentityFetcher tokenResponseFetcher = new DefaultIdentityFetcher();
 	
 	private JSONObject tokenResponse;
 	
@@ -26,8 +22,7 @@ public class AuthCodeIdentity implements Identity {
 		this.tokenResponse = tokenResponseFetcher.getProperties(authCode);
 		if(tokenResponse == null){
 			throw new UnableToFetchIdentityException("Unable to convert authcode to identity");
-		}
-		
+		}		
 	}
 	
 	@Override

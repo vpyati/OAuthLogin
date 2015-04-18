@@ -21,8 +21,7 @@ public class DefaultIdentityFetcher implements IIdentityFetcher {
 	@Autowired
 	private IOAuthCredentials oauthCredentials;
 	
-	@Autowired
-	private IOpenconnectDiscoveryFactory discoveryFactory;
+	private IOpenconnectDiscoveryFactory discoveryFactory = new OpenconnectDiscoveryFactory();
 	
 	private HttpClientUtil httpUtil = new HttpClientUtil();
 	
