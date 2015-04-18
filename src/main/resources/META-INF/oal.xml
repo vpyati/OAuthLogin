@@ -18,7 +18,6 @@
 	<bean id="tokenResponseFetcher" class="com.vikram.openconnect.login.DefaultIdentityFetcher"></bean>
 	<bean id="googleDiscovery" class="com.vikram.openconnect.login.google.GoogleOpenconnectDiscovery"></bean>
 
-
 <!-- 	<mvc:annotation-driven> -->
 <!-- 		<mvc:argument-resolvers> -->
 <!-- 			<bean class="com.vikram.openconnect.login.identity.IdentityResovler"></bean> -->
