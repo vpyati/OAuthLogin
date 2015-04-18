@@ -18,8 +18,7 @@ public class OpenconnectDiscoveryFactory implements IOpenconnectDiscoveryFactory
 	public OpenconnectDiscoveryFactory(){
 		instanceMap.put(OAuthProvider.GOOGLE, googleDiscovery);
 	}
-	
-	
+		
 	public IOpenconnectDiscovery get(OAuthProvider provider){
 		return instanceMap.get(provider);		
 	}

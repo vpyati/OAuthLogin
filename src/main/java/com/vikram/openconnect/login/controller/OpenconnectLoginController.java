@@ -9,16 +9,15 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.vikram.openconnect.login.IOpenconnectDiscovery;
 import com.vikram.openconnect.login.IOpenconnectDiscoveryFactory;
 import com.vikram.openconnect.login.input.ICredentialInput;
-import com.vikram.openconnect.login.input.OAuthCredentials;
+import com.vikram.openconnect.login.input.IOAuthCredentials;
 import com.vikram.openconnect.login.providers.OAuthProvider;
 
 public abstract class OpenconnectLoginController {
 
 	@Autowired
-	private OAuthCredentials oauthCredentials;
+	private IOAuthCredentials oauthCredentials;
 	
-	@Autowired
-	private IOpenconnectDiscoveryFactory discoveryFactory;
+	private IOpenconnectDiscoveryFactory discoveryFactory ;
 	
 	
 	private ICredentialInput getCredentialByProvider(OAuthProvider provider){

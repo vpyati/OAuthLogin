@@ -2,6 +2,8 @@ package com.vikram.openconnect.login;
 
 import java.io.IOException;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.http.HttpException;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -15,16 +17,14 @@ public class DefaultOpenconnectDiscovery implements IOpenconnectDiscovery {
 
 	private JSONObject jsonResponse;
 	
+	private String discoveryUrl;
+	
 	@Autowired
 	private HttpClientUtil httpClientUtil;
 	
 
-	protected DefaultOpenconnectDiscovery(String Url){
-		try {
-			init(Url);
-		} catch (IOException | HttpException e) {
-			throw new RuntimeException("Unable to get GoogleDiscovery",e);
-		}			
+	protected DefaultOpenconnectDiscovery(String url){	
+		this.discoveryUrl = url;		
 	}
 	
 	
@@ -32,7 +32,7 @@ public class DefaultOpenconnectDiscovery implements IOpenconnectDiscovery {
 		String jsonString = httpClientUtil.getJSONResponse(Url);
 		jsonResponse = (JSONObject) JSONValue.parse(jsonString);		
 	}
-
+ 
 	
 	public String getIssuer() {
 		return (String) jsonResponse.get("issuer");
@@ -76,6 +76,16 @@ public class DefaultOpenconnectDiscovery implements IOpenconnectDiscovery {
 
 	public String[] getId_token_alg_values_supported() {
 		return (String[]) jsonResponse.get("id_token_alg_values_supported");
+	}
+
+
+	@PostConstruct
+	public void init() {
+		try {
+			init(discoveryUrl);
+		} catch (IOException | HttpException e) {
+			throw new RuntimeException("Unable to get GoogleDiscovery",e);
+		}	
 	}
 
 }
