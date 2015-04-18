@@ -12,18 +12,16 @@ import com.vikram.openconnect.login.IOpenconnectDiscoveryFactory;
 import com.vikram.openconnect.login.input.ICredentialInput;
 import com.vikram.openconnect.login.input.IOAuthCredentials;
 import com.vikram.openconnect.login.providers.OAuthProvider;
+import com.vikram.openconnect.login.util.SpringBeanUtil;
 
 public abstract class OpenconnectLoginController {
 
-	@Autowired
-	private IOAuthCredentials  inputCredentials;
-	
 	@Autowired
 	ApplicationContext ctx;
 	
 	
 	private ICredentialInput getCredentialByProvider(OAuthProvider provider){
-		return inputCredentials.getCredentialByProvider(provider);
+		return SpringBeanUtil.getInstance().getBean("oauthCredentials", IOAuthCredentials.class).getCredentialByProvider(provider);
 	}
 	
 	protected abstract OAuthProvider getProvider();

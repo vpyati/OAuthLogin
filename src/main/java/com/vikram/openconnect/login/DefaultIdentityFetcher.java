@@ -7,7 +7,6 @@ import java.util.Map;
 import org.apache.http.HttpException;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vikram.openconnect.login.input.ICredentialInput;
@@ -15,12 +14,10 @@ import com.vikram.openconnect.login.input.IOAuthCredentials;
 import com.vikram.openconnect.login.providers.OAuthProvider;
 import com.vikram.openconnect.login.util.AuthCodeResolver;
 import com.vikram.openconnect.login.util.HttpClientUtil;
+import com.vikram.openconnect.login.util.SpringBeanUtil;
 
 public class DefaultIdentityFetcher implements IIdentityFetcher {
 
-	@Autowired
-	private IOAuthCredentials oauthCredentials;
-	
 	private IOpenconnectDiscoveryFactory discoveryFactory = new OpenconnectDiscoveryFactory();
 	
 	private HttpClientUtil httpUtil = new HttpClientUtil();
@@ -30,7 +27,7 @@ public class DefaultIdentityFetcher implements IIdentityFetcher {
 	public JSONObject getProperties(String authCode) throws HttpException {
 
 		OAuthProvider provider = AuthCodeResolver.resolveAuthCode(authCode);
-		ICredentialInput credentials = oauthCredentials.getCredentialByProvider(provider);
+		ICredentialInput credentials = SpringBeanUtil.getInstance().getBean("oauthCredentials", IOAuthCredentials.class).getCredentialByProvider(provider);
 		IOpenconnectDiscovery discovery = discoveryFactory.get(provider);
 
 		GetTokenResponse tokenResponse = getTokenResponse(authCode, credentials, discovery);
