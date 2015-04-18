@@ -8,7 +8,6 @@ import com.vikram.openconnect.login.exception.UnableToFetchIdentityException;
 
 public class AuthCodeIdentity implements Identity {
 
-
 	private JSONObject tokenResponse;
 	
 	public AuthCodeIdentity(String authCode, IIdentityFetcher tokenResponseFetcher) throws HttpException {
