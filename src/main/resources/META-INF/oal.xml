@@ -13,11 +13,11 @@
 	<context:annotation-config />
 	<context:component-scan base-package="com.vikram.openconnect.login" />
 
-	<bean id="discoveryFactory" class="com.vikram.openconnect.login.OpenconnectDiscoveryFactory"></bean>
-	
-<!-- 	<bean id="httpUtil" class="com.vikram.openconnect.login.util.HttpClientUtil"></bean> -->
-	
+	<bean id="discoveryFactory" class="com.vikram.openconnect.login.OpenconnectDiscoveryFactory"></bean>	
+	<bean id="httpUtil" class="com.vikram.openconnect.login.util.HttpClientUtil"></bean>
 	<bean id="tokenResponseFetcher" class="com.vikram.openconnect.login.DefaultIdentityFetcher"></bean>
+	<bean id="springBeanUtil" class="com.vikram.openconnect.login.util."></bean>
+
 
 	<mvc:annotation-driven>
 		<mvc:argument-resolvers>

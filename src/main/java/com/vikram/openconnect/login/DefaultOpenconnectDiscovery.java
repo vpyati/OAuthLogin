@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.http.HttpException;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -14,7 +15,8 @@ public class DefaultOpenconnectDiscovery implements IOpenconnectDiscovery {
 
 	private JSONObject jsonResponse;
 	
-	private HttpClientUtil httpClientUtil = new HttpClientUtil();
+	@Autowired
+	private HttpClientUtil httpClientUtil;
 	
 
 	protected DefaultOpenconnectDiscovery(String Url){

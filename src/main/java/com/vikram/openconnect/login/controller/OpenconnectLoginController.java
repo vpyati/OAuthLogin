@@ -1,7 +1,6 @@
 package com.vikram.openconnect.login.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -10,18 +9,20 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.vikram.openconnect.login.IOpenconnectDiscovery;
 import com.vikram.openconnect.login.IOpenconnectDiscoveryFactory;
 import com.vikram.openconnect.login.input.ICredentialInput;
-import com.vikram.openconnect.login.input.IOAuthCredentials;
+import com.vikram.openconnect.login.input.OAuthCredentials;
 import com.vikram.openconnect.login.providers.OAuthProvider;
-import com.vikram.openconnect.login.util.SpringBeanUtil;
 
 public abstract class OpenconnectLoginController {
 
 	@Autowired
-	ApplicationContext ctx;
+	private OAuthCredentials oauthCredentials;
+	
+	@Autowired
+	private IOpenconnectDiscoveryFactory discoveryFactory;
 	
 	
 	private ICredentialInput getCredentialByProvider(OAuthProvider provider){
-		return SpringBeanUtil.getInstance().getBean("oauthCredentials", IOAuthCredentials.class).getCredentialByProvider(provider);
+		return oauthCredentials.getCredentialByProvider(provider);
 	}
 	
 	protected abstract OAuthProvider getProvider();
@@ -30,7 +31,7 @@ public abstract class OpenconnectLoginController {
 	public String getOpenconnectUrl(){
 		
 		ICredentialInput credential = getCredentialByProvider(getProvider());
-		IOpenconnectDiscovery discovery = ((IOpenconnectDiscoveryFactory) ctx.getBean("discoveryFactory")).get(getProvider());
+		IOpenconnectDiscovery discovery = discoveryFactory.get(getProvider());
 
 		String authEndpointURL = discovery.getAuthorization_endpoint();
 
