@@ -15,7 +15,7 @@
 
 	<bean id="discoveryFactory" class="com.vikram.openconnect.login.OpenconnectDiscoveryFactory"></bean>	
 	<bean id="httpUtil" class="com.vikram.openconnect.login.util.HttpClientUtil"></bean>
-	<bean id="tokenResponseFetcher" class="com.vikram.openconnect.login.DefaultIdentityFetcher"></bean>
+<!-- 	<bean id="tokenResponseFetcher" class="com.vikram.openconnect.login.DefaultIdentityFetcher"></bean> -->
 	<bean id="googleDiscovery" class="com.vikram.openconnect.login.google.GoogleOpenconnectDiscovery"></bean>
 
 <!-- 	<mvc:annotation-driven> -->

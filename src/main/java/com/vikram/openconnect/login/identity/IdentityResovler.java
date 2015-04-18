@@ -4,7 +4,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -16,9 +15,12 @@ import com.vikram.openconnect.login.IIdentityFetcher;
 
 public class IdentityResovler implements HandlerMethodArgumentResolver{
 	
-	@Autowired
-	IIdentityFetcher identityFetcher;
+	private IIdentityFetcher identityFetcher;
 
+	public IdentityResovler(IIdentityFetcher identityFetcher){
+		this.identityFetcher = identityFetcher;
+	}
+	
 	@Override
 	public Object resolveArgument(MethodParameter arg0,
 			ModelAndViewContainer arg1, NativeWebRequest request,
@@ -26,13 +28,13 @@ public class IdentityResovler implements HandlerMethodArgumentResolver{
 		
 		Cookie authCode = WebUtils.getCookie(request.getNativeRequest(HttpServletRequest.class), "authorization_code");
 		if(authCode!=null){
-			return returnUser(authCode);
+			return returnIdentity(authCode);
 		}else{
 			return Identity.INVALID_USER;
 		}
 	}
 
-	private Identity returnUser(Cookie authCode) {		
+	private Identity returnIdentity(Cookie authCode) {		
 		try {
 			return new AuthCodeIdentity(authCode.getValue(),identityFetcher);
 		} catch (HttpException e) {
