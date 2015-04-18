@@ -20,6 +20,6 @@ public class OpenconnectDiscoveryFactory implements IOpenconnectDiscoveryFactory
 	}
 		
 	public IOpenconnectDiscovery get(OAuthProvider provider){
-		return instanceMap.get(provider);		
+		return googleDiscovery;		
 	}
 }
