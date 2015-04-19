@@ -4,22 +4,19 @@ import org.apache.http.HttpException;
 import org.json.simple.JSONObject;
 
 import com.vikram.openconnect.login.IIdentityFetcher;
-import com.vikram.openconnect.login.exception.UnableToFetchIdentityException;
+import com.vikram.openconnect.login.providers.OAuthProvider;
 
 public class AuthCodeIdentity implements Identity {
 
 	private JSONObject tokenResponse;
 	
-	public AuthCodeIdentity(String authCode, IIdentityFetcher tokenResponseFetcher) throws HttpException {
-		this.tokenResponse = tokenResponseFetcher.getProperties(authCode);
-		if(tokenResponse == null){
-			throw new UnableToFetchIdentityException("Unable to convert authcode to identity");
-		}		
+	public AuthCodeIdentity(String accessToken, IIdentityFetcher tokenResponseFetcher) throws HttpException {
+		this.tokenResponse = tokenResponseFetcher.getPropertiesByAccessToken(accessToken, OAuthProvider.GOOGLE);
 	}
 	
 	@Override
 	public boolean isValid() {
-		return tokenResponse!=null;
+		return tokenResponse!=null && getEmailAddress()!=null;
 	}
 
 	@Override

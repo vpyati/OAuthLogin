@@ -3,7 +3,7 @@ package com.vikram.openconnect.login;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class GetTokenResponse {
+public class TokenResponse {
 	
 	private String access_token;
 	private String id_token;

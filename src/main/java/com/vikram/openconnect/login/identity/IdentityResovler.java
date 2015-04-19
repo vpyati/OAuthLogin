@@ -26,9 +26,9 @@ public class IdentityResovler implements HandlerMethodArgumentResolver{
 			ModelAndViewContainer arg1, NativeWebRequest request,
 			WebDataBinderFactory arg3) throws Exception {
 		
-		Cookie authCode = WebUtils.getCookie(request.getNativeRequest(HttpServletRequest.class), "authorization_code");
-		if(authCode!=null){
-			return returnIdentity(authCode);
+		Cookie accessToken = WebUtils.getCookie(request.getNativeRequest(HttpServletRequest.class), "access_token");
+		if(accessToken!=null){
+			return returnIdentity(accessToken);
 		}else{
 			return Identity.INVALID_USER;
 		}

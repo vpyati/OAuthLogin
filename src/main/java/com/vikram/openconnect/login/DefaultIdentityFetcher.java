@@ -29,22 +29,27 @@ public class DefaultIdentityFetcher implements IIdentityFetcher {
 	
 	
 	@Override
-	public JSONObject getProperties(String authCode) throws HttpException {
+	public JSONObject getPropertiesByAccessToken(String accessToken, OAuthProvider provider) throws HttpException {
 
-		OAuthProvider provider = AuthCodeResolver.resolveAuthCode(authCode);
-		ICredentialInput credentials = oauthCredentials.getCredentialByProvider(provider);
 		IOpenconnectDiscovery discovery = discoveryFactory.get(provider);
-
-		GetTokenResponse tokenResponse = getTokenResponse(authCode, credentials, discovery);
-
 		String userInfoEndpoint = discovery.getUserinfo_endpoint();
 
-		String jsonResponse = httpUtil.getJSONResponse(userInfoEndpoint + "?access_token=" + tokenResponse.getAccess_token());
+		String jsonResponse = httpUtil.getJSONResponse(userInfoEndpoint + "?access_token=" + accessToken);
 		return (JSONObject) JSONValue.parse(jsonResponse);
 	}
 
 
-	private GetTokenResponse getTokenResponse(String authCode, ICredentialInput credentials, IOpenconnectDiscovery discovery) {
+	@Override
+	public TokenResponse getTokenResponse(String authCode) {
+		OAuthProvider provider = AuthCodeResolver.resolveAuthCode(authCode);
+		ICredentialInput credentials = oauthCredentials.getCredentialByProvider(provider);
+		IOpenconnectDiscovery discovery = discoveryFactory.get(provider);
+
+		return getTokenResponseInternal(authCode, credentials, discovery);
+
+	}
+	
+	private TokenResponse getTokenResponseInternal(String authCode, ICredentialInput credentials, IOpenconnectDiscovery discovery) {
 		String tokenEndpoint = discovery.getToken_endpoint();
 		
 		Map<String, String> postParams = new HashMap<String, String>();
@@ -55,28 +60,28 @@ public class DefaultIdentityFetcher implements IIdentityFetcher {
 		postParams.put("grant_type", "authorization_code");
 		postParams.put("access_type", "offline");
 		
-		String response = getResponse(tokenEndpoint, postParams);
+		String response = getHttpResponse(tokenEndpoint, postParams);
 		if(response == null){
 			return null;
 		}
 		
-		return getTokenResponse(response);
+		return getTokenResponseInternal(response);
 	}
-	
-	
-	private GetTokenResponse getTokenResponse(String response)  {
+
+	private String getHttpResponse(String tokenEndpoint,Map<String, String> postParams) {
 		try {
-			ObjectMapper mapper = new ObjectMapper();
-			return mapper.readValue(response,GetTokenResponse.class);
-		} catch (IOException e) {
+			return httpUtil.getJSONResponse(tokenEndpoint, postParams);
+		} catch (HttpException e) {
 			return null;
 		}
 	}
 
-	private String getResponse(String tokenEndpoint,Map<String, String> postParams) {
+
+	private TokenResponse getTokenResponseInternal(String response)  {
 		try {
-			return httpUtil.getJSONResponse(tokenEndpoint, postParams);
-		} catch (HttpException e) {
+			ObjectMapper mapper = new ObjectMapper();
+			return mapper.readValue(response,TokenResponse.class);
+		} catch (IOException e) {
 			return null;
 		}
 	}

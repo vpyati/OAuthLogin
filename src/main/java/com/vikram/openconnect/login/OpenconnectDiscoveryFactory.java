@@ -3,6 +3,8 @@ package com.vikram.openconnect.login;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vikram.openconnect.login.google.GoogleOpenconnectDiscovery;
@@ -15,11 +17,12 @@ public class OpenconnectDiscoveryFactory implements IOpenconnectDiscoveryFactory
 	
 	private Map<OAuthProvider, IOpenconnectDiscovery> instanceMap = new HashMap<OAuthProvider, IOpenconnectDiscovery>();
 	
-	public OpenconnectDiscoveryFactory(){
+	@PostConstruct
+	public void init(){
 		instanceMap.put(OAuthProvider.GOOGLE, googleDiscovery);
 	}
 		
 	public IOpenconnectDiscovery get(OAuthProvider provider){
-		return googleDiscovery;		
+		return instanceMap.get(provider);		
 	}
 }

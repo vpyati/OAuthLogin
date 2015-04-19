@@ -17,6 +17,7 @@ public abstract class OpenconnectLoginController {
 	@Autowired
 	private IOAuthCredentials oauthCredentials;
 	
+	@Autowired
 	private IOpenconnectDiscoveryFactory discoveryFactory ;
 	
 	
