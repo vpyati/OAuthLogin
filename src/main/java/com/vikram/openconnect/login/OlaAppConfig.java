@@ -15,7 +15,10 @@ import com.vikram.openconnect.login.identity.IdentityResovler;
 public class OlaAppConfig extends WebMvcConfigurerAdapter{
 
 	@Autowired
-	IIdentityFetcher identityFetcher;
+	private IIdentityFetcher identityFetcher;
+	
+	@Autowired
+	private IAccessToken accessToken;
 	
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
@@ -23,6 +26,6 @@ public class OlaAppConfig extends WebMvcConfigurerAdapter{
 	}
 	
 	public IdentityResovler getIdentityResolver(){
-		return new IdentityResovler(identityFetcher);
+		return new IdentityResovler(identityFetcher,accessToken);
 	}
 }
