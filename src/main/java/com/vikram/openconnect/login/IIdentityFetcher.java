@@ -7,7 +7,7 @@ import com.vikram.openconnect.login.providers.OAuthProvider;
 
 public interface IIdentityFetcher {
 	
-	TokenResponse getTokenResponse(String authCode);
+	TokenResponse getTokenResponse(String authCode,OAuthProvider provider);
 	
 	JSONObject getPropertiesByAccessToken(String accessToken, OAuthProvider provider) throws HttpException;
 }

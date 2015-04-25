@@ -10,8 +10,8 @@ public class AuthCodeIdentity implements Identity {
 
 	private JSONObject tokenResponse;
 	
-	public AuthCodeIdentity(String accessToken, IIdentityFetcher tokenResponseFetcher) throws HttpException {
-		this.tokenResponse = tokenResponseFetcher.getPropertiesByAccessToken(accessToken, OAuthProvider.GOOGLE);
+	public AuthCodeIdentity(String accessToken, IIdentityFetcher tokenResponseFetcher, OAuthProvider provider) throws HttpException {
+		this.tokenResponse = tokenResponseFetcher.getPropertiesByAccessToken(accessToken, provider);
 	}
 	
 	@Override

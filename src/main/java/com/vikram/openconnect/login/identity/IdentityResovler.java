@@ -11,6 +11,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.vikram.openconnect.login.IAccessToken;
 import com.vikram.openconnect.login.IIdentityFetcher;
+import com.vikram.openconnect.login.providers.OAuthProvider;
 
 public class IdentityResovler implements HandlerMethodArgumentResolver{
 	
@@ -28,15 +29,48 @@ public class IdentityResovler implements HandlerMethodArgumentResolver{
 			ModelAndViewContainer arg1, NativeWebRequest request,
 			WebDataBinderFactory arg3) throws Exception {
 		
+		HttpServletRequest servletRequest = request.getNativeRequest(HttpServletRequest.class);
+		CurrentCredentials currentCredentials = getCurrentCredentials(servletRequest);
+		if(currentCredentials == null){
+			return Identity.INVALID_USER;
+		}
+				
 		try {
-			return new AuthCodeIdentity(accessToken.getAccessToken(request.getNativeRequest(HttpServletRequest.class)),identityFetcher);
+			return new AuthCodeIdentity(currentCredentials.accessTokenString,identityFetcher,currentCredentials.provider);
 		} catch (HttpException e) {
 			return Identity.INVALID_USER;
 		}
 	}
 
+	private CurrentCredentials getCurrentCredentials(HttpServletRequest servletRequest) {
+
+		CurrentCredentials currentCredentials = null;
+		
+		for(OAuthProvider provider:OAuthProvider.values()){			
+			String accessTokenString = accessToken.getAccessToken(servletRequest, provider);
+			if(accessTokenString!=null){
+				currentCredentials = new CurrentCredentials(accessTokenString, provider);
+			}
+		}
+		return currentCredentials;
+	}
+
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		 return parameter.getParameterType().equals(Identity.class);
-	}	
+	}
+	
+	
+	private class CurrentCredentials{
+		
+		String accessTokenString;
+		OAuthProvider provider;
+		
+		CurrentCredentials(String accessTokenString,OAuthProvider provider) {
+			this.accessTokenString = accessTokenString;
+			this.provider = provider;
+		}
+		
+	}
+	
 }

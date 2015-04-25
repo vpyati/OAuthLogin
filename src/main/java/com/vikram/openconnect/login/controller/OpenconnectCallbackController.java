@@ -12,6 +12,8 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.vikram.openconnect.login.IAccessToken;
 import com.vikram.openconnect.login.IIdentityFetcher;
 import com.vikram.openconnect.login.TokenResponse;
+import com.vikram.openconnect.login.providers.OAuthProvider;
+import com.vikram.openconnect.login.util.AuthCodeResolver;
 
 public abstract class OpenconnectCallbackController {
 	
@@ -24,9 +26,10 @@ public abstract class OpenconnectCallbackController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView callBack(@RequestParam("code")String code, @RequestParam("state")String state, HttpServletResponse response){
-				
-		TokenResponse tokenResponse = identityFetcher.getTokenResponse(code);
-		accessToken.setAccessToken(tokenResponse.getAccess_token(),response);	
+		
+		OAuthProvider provider = AuthCodeResolver.resolveState(state);
+		TokenResponse tokenResponse = identityFetcher.getTokenResponse(code,provider);
+		accessToken.setAccessToken(tokenResponse.getAccess_token(),response,provider);	
 		return redirect();	
 	}
 

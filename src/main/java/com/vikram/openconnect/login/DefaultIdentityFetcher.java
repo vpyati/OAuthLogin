@@ -13,7 +13,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vikram.openconnect.login.input.ICredentialInput;
 import com.vikram.openconnect.login.input.IOAuthCredentials;
 import com.vikram.openconnect.login.providers.OAuthProvider;
-import com.vikram.openconnect.login.util.AuthCodeResolver;
 import com.vikram.openconnect.login.util.HttpClientUtil;
 
 public class DefaultIdentityFetcher implements IIdentityFetcher {
@@ -40,13 +39,10 @@ public class DefaultIdentityFetcher implements IIdentityFetcher {
 
 
 	@Override
-	public TokenResponse getTokenResponse(String authCode) {
-		OAuthProvider provider = AuthCodeResolver.resolveAuthCode(authCode);
+	public TokenResponse getTokenResponse(String authCode, OAuthProvider provider) {
 		ICredentialInput credentials = oauthCredentials.getCredentialByProvider(provider);
 		IOpenconnectDiscovery discovery = discoveryFactory.get(provider);
-
 		return getTokenResponseInternal(authCode, credentials, discovery);
-
 	}
 	
 	private TokenResponse getTokenResponseInternal(String authCode, ICredentialInput credentials, IOpenconnectDiscovery discovery) {
