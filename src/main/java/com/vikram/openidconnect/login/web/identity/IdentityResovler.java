@@ -9,20 +9,19 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.vikram.openidconnect.login.core.IIdentityFetcher;
-import com.vikram.openidconnect.login.core.identity.AuthCodeIdentity;
 import com.vikram.openidconnect.login.core.identity.Identity;
+import com.vikram.openidconnect.login.core.identity.IdentityAccessor;
 import com.vikram.openidconnect.login.core.providers.OAuthProvider;
 import com.vikram.openidconnect.login.web.IAccessToken;
 
 public class IdentityResovler implements HandlerMethodArgumentResolver{
 	
-	private IIdentityFetcher identityFetcher;
+	private IdentityAccessor identityAccessor;
 	
 	private IAccessToken accessToken;
 
-	public IdentityResovler(IIdentityFetcher identityFetcher, IAccessToken accessToken){
-		this.identityFetcher = identityFetcher;
+	public IdentityResovler(IdentityAccessor accessor, IAccessToken accessToken){
+		this.identityAccessor = accessor;
 		this.accessToken = accessToken;
 	}
 	
@@ -38,7 +37,7 @@ public class IdentityResovler implements HandlerMethodArgumentResolver{
 		}
 				
 		try {
-			return new AuthCodeIdentity(currentCredentials.accessTokenString,identityFetcher,currentCredentials.provider);
+			return identityAccessor.getIdentity(currentCredentials.accessTokenString, currentCredentials.provider);
 		} catch (HttpException e) {
 			return Identity.INVALID_USER;
 		}

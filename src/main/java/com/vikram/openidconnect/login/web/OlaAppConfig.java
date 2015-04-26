@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.vikram.openidconnect.login.core.IIdentityFetcher;
+import com.vikram.openidconnect.login.core.identity.IdentityAccessor;
 import com.vikram.openidconnect.login.web.identity.IdentityResovler;
 
 @Configuration
@@ -16,7 +16,7 @@ import com.vikram.openidconnect.login.web.identity.IdentityResovler;
 public class OlaAppConfig extends WebMvcConfigurerAdapter{
 
 	@Autowired
-	private IIdentityFetcher identityFetcher;
+	private IdentityAccessor identityAccessor;
 	
 	@Autowired
 	private IAccessToken accessToken;
@@ -27,6 +27,6 @@ public class OlaAppConfig extends WebMvcConfigurerAdapter{
 	}
 	
 	public IdentityResovler getIdentityResolver(){
-		return new IdentityResovler(identityFetcher,accessToken);
+		return new IdentityResovler(identityAccessor,accessToken);
 	}
 }

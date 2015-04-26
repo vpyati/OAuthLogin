@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.vikram.openidconnect</groupId>
 	<artifactId>login-web</artifactId>
-	<version>0.9.0-SNAPSHOT</version>
+	<version>0.9.1-SNAPSHOT</version>
 	<properties>
 		<org.springframework.version>4.0.8.RELEASE</org.springframework.version>
 	</properties>
@@ -67,7 +67,7 @@
 		<dependency>
 			<groupId>com.vikram.openidconnect</groupId>
 			<artifactId>login-core</artifactId>
-			<version>0.9.0-SNAPSHOT</version>
+			<version>0.9.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>
