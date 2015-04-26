@@ -9,9 +9,13 @@ import com.vikram.openconnect.login.providers.OAuthProvider;
 public class AuthCodeIdentity implements Identity {
 
 	private JSONObject tokenResponse;
+	private String accessToken;
+	private OAuthProvider provider;
 	
 	public AuthCodeIdentity(String accessToken, IIdentityFetcher tokenResponseFetcher, OAuthProvider provider) throws HttpException {
 		this.tokenResponse = tokenResponseFetcher.getPropertiesByAccessToken(accessToken, provider);
+		this.accessToken = accessToken;
+		this.provider = provider;
 	}
 	
 	@Override
@@ -27,5 +31,15 @@ public class AuthCodeIdentity implements Identity {
 	@Override
 	public String getEmailAddress() {
 		return (String) tokenResponse.get("email");
+	}
+
+	@Override
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+	@Override
+	public OAuthProvider getProvider() {
+		return provider;
 	}
 }
