@@ -3,6 +3,8 @@ package com.vikram.openidconnect.login.web.identity;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -19,6 +21,8 @@ public class IdentityResovler implements HandlerMethodArgumentResolver{
 	private IdentityAccessor identityAccessor;
 	
 	private IAccessToken accessToken;
+	
+	private static Logger logger = LoggerFactory.getLogger(IdentityResovler.class);
 
 	public IdentityResovler(IdentityAccessor accessor, IAccessToken accessToken){
 		this.identityAccessor = accessor;
@@ -30,21 +34,26 @@ public class IdentityResovler implements HandlerMethodArgumentResolver{
 			ModelAndViewContainer arg1, NativeWebRequest request,
 			WebDataBinderFactory arg3) throws Exception {
 		
+		logger.info("Resolving identity....");
+		
 		HttpServletRequest servletRequest = request.getNativeRequest(HttpServletRequest.class);
 		CurrentCredentials currentCredentials = getCurrentCredentials(servletRequest);
 		if(currentCredentials == null){
+			logger.warn("Unable to fetch a valid access token");
 			return Identity.INVALID_USER;
 		}
 				
 		try {
 			return identityAccessor.getIdentity(currentCredentials.accessTokenString, currentCredentials.provider);
 		} catch (HttpException e) {
+			logger.error("Error fetching identity",e);
 			return Identity.INVALID_USER;
 		}
 	}
 
 	private CurrentCredentials getCurrentCredentials(HttpServletRequest servletRequest) {
 
+		
 		CurrentCredentials currentCredentials = null;
 		
 		for(OAuthProvider provider:OAuthProvider.values()){			

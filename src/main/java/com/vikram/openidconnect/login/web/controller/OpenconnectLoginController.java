@@ -1,5 +1,7 @@
 package com.vikram.openidconnect.login.web.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +22,7 @@ public abstract class OpenconnectLoginController {
 	@Autowired
 	private IOpenconnectDiscoveryFactory discoveryFactory ;
 	
+	private static Logger logger = LoggerFactory.getLogger(OpenconnectLoginController.class);
 	
 	private ICredentialInput getCredentialByProvider(OAuthProvider provider){
 		return oauthCredentials.getCredentialByProvider(provider);
@@ -45,7 +48,9 @@ public abstract class OpenconnectLoginController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView login(){
-				
+		
+		logger.info("Redirecting to login");
+		
 		RedirectView rv =  new RedirectView(getOpenconnectUrl());
 		return new ModelAndView(rv);				
 	}

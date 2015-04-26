@@ -2,6 +2,8 @@ package com.vikram.openidconnect.login.web.controller;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,13 +25,21 @@ public abstract class OpenconnectCallbackController {
 	@Autowired
 	private IAccessToken accessToken;
 
+	private static Logger logger = LoggerFactory.getLogger(OpenconnectCallbackController.class);
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView callBack(@RequestParam("code")String code, @RequestParam("state")String state, HttpServletResponse response){
 		
+		logger.info("Resolving OAuthprovider");
 		OAuthProvider provider = AuthCodeResolver.resolveState(state);
+		
+		logger.info("Fetching token response");
 		TokenResponse tokenResponse = identityFetcher.getTokenResponse(code,provider);
+		
+		logger.info("Setting Access token");
 		accessToken.setAccessToken(tokenResponse.getAccess_token(),response,provider);	
+		
+		logger.info("Redirecting after login");
 		return redirect();	
 	}
 
