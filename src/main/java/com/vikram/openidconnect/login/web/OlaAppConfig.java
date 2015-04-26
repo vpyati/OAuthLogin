@@ -1,4 +1,4 @@
-package com.vikram.openconnect.login.web;
+package com.vikram.openidconnect.login.web;
 
 import java.util.List;
 
@@ -8,11 +8,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.vikram.openconnect.login.core.IIdentityFetcher;
-import com.vikram.openconnect.login.web.identity.IdentityResovler;
+import com.vikram.openidconnect.login.core.IIdentityFetcher;
+import com.vikram.openidconnect.login.web.identity.IdentityResovler;
 
 @Configuration
-@ComponentScan("com.vikram.openconnect.login.web")
+@ComponentScan("com.vikram.openidconnect.login.web")
 public class OlaAppConfig extends WebMvcConfigurerAdapter{
 
 	@Autowired

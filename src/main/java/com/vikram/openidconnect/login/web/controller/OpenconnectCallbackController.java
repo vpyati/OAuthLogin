@@ -1,4 +1,4 @@
-package com.vikram.openconnect.login.web.controller;
+package com.vikram.openidconnect.login.web.controller;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.vikram.openconnect.login.core.IIdentityFetcher;
-import com.vikram.openconnect.login.core.TokenResponse;
-import com.vikram.openconnect.login.core.providers.OAuthProvider;
-import com.vikram.openconnect.login.web.IAccessToken;
-import com.vikram.openconnect.login.web.util.AuthCodeResolver;
+import com.vikram.openidconnect.login.core.IIdentityFetcher;
+import com.vikram.openidconnect.login.core.TokenResponse;
+import com.vikram.openidconnect.login.core.providers.OAuthProvider;
+import com.vikram.openidconnect.login.web.IAccessToken;
+import com.vikram.openidconnect.login.web.util.AuthCodeResolver;
 
 public abstract class OpenconnectCallbackController {
 	

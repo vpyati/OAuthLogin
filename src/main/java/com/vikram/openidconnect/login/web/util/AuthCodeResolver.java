@@ -1,6 +1,6 @@
-package com.vikram.openconnect.login.web.util;
+package com.vikram.openidconnect.login.web.util;
 
-import com.vikram.openconnect.login.core.providers.OAuthProvider;
+import com.vikram.openidconnect.login.core.providers.OAuthProvider;
 
 public class AuthCodeResolver {
 	

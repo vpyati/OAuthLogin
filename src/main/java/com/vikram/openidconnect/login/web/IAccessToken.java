@@ -1,9 +1,9 @@
-package com.vikram.openconnect.login.web;
+package com.vikram.openidconnect.login.web;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.vikram.openconnect.login.core.providers.OAuthProvider;
+import com.vikram.openidconnect.login.core.providers.OAuthProvider;
 
 
 public interface IAccessToken {

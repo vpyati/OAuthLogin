@@ -1,4 +1,4 @@
-package com.vikram.openconnect.login.web.identity;
+package com.vikram.openidconnect.login.web.identity;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,11 +9,11 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.vikram.openconnect.login.core.IIdentityFetcher;
-import com.vikram.openconnect.login.core.identity.AuthCodeIdentity;
-import com.vikram.openconnect.login.core.identity.Identity;
-import com.vikram.openconnect.login.core.providers.OAuthProvider;
-import com.vikram.openconnect.login.web.IAccessToken;
+import com.vikram.openidconnect.login.core.IIdentityFetcher;
+import com.vikram.openidconnect.login.core.identity.AuthCodeIdentity;
+import com.vikram.openidconnect.login.core.identity.Identity;
+import com.vikram.openidconnect.login.core.providers.OAuthProvider;
+import com.vikram.openidconnect.login.web.IAccessToken;
 
 public class IdentityResovler implements HandlerMethodArgumentResolver{
 	
