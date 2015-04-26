@@ -1,8 +1,8 @@
-package test.com.vikram.openconnect.login.google;
+package test.com.vikram.openconnect.login.web.google;
 
 import org.springframework.util.Assert;
 
-import com.vikram.openconnect.login.google.GoogleOpenconnectDiscovery;
+import com.vikram.openconnect.login.core.google.GoogleOpenconnectDiscovery;
 
 public class GoogleOpenconnectDiscoveryTest {
 	

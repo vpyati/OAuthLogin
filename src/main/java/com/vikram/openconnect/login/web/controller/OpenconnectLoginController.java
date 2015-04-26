@@ -1,4 +1,4 @@
-package com.vikram.openconnect.login.controller;
+package com.vikram.openconnect.login.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.vikram.openconnect.login.IOpenconnectDiscovery;
-import com.vikram.openconnect.login.IOpenconnectDiscoveryFactory;
-import com.vikram.openconnect.login.input.ICredentialInput;
-import com.vikram.openconnect.login.input.IOAuthCredentials;
-import com.vikram.openconnect.login.providers.OAuthProvider;
+import com.vikram.openconnect.login.core.IOpenconnectDiscovery;
+import com.vikram.openconnect.login.core.IOpenconnectDiscoveryFactory;
+import com.vikram.openconnect.login.core.input.ICredentialInput;
+import com.vikram.openconnect.login.core.input.IOAuthCredentials;
+import com.vikram.openconnect.login.core.providers.OAuthProvider;
 
 public abstract class OpenconnectLoginController {
 
